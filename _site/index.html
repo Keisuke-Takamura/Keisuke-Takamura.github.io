@@ -7,9 +7,77 @@
 </head>
 <body>
     <div class="container">
-        <h1 id="とりあえず作ってみた">とりあえず作ってみた</h1>
+        <h2>2017/02/20</h2>
+<h3>try~catchについて</h3>
+<p><code class="highlighter-rouge">try</code>で実行する処理を書いて、エラーの場合を<code class="highlighter-rouge">catch</code>に記述する。
+ただJSにおいて使う機会があまりない。ブラウザで実行することが多いため、デベロッパーツールなどでエラーが出力されるため。<br />
+今日見たのはconfigファイルで記述されていたパターン。<br />
+サーバーサイド側のjsだと使う機会が多いかもしれない。</p>
 
-<p>ほげほげ</p>
+<h2>2017/02/27</h2>
+<h3>bfcacheについて</h3>
+<p>iOS Safariブラウザ限定の仕様。<br />
+ブラウザバックした際にページを再読み込みするのではなく、キャッシュで遷移する前の状態を保持しておく。<br />
+再読み込みしないので、ブラウザバックした時のページ読み込みが早くなるメリットがある。<br />
+ただ、JavaScriptの状態も保持されており、たとえばブルダウンメニューを開いて遷移といった手順を踏んでブラウザバックすると、プルダウンメニューが開いた状態で表示される。<br />
+対応策として以下があるが、毎回リロードさせるのではなく、キャッシュさせたくないイベントを指定して何かしらしたほうが良さそう。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>window.onpageshow = function(event) {
+  if (event.persisted) {
+    window.location.reload();
+  }
+};
+</code></pre>
+</div>
+
+<h2>2017/03/02</h2>
+<h3>スマホ（Safari、Chrome）でスクロールしたときにresizeイベントが発生する</h3>
+<p>ブラウザのヘッダバーがスクロールしたときに収縮するため、それにresizeイベントが反応している。<br />
+スマホでリサイズするときは端末を縦か横にしたときだけなので、<code class="highlighter-rouge">orientationchange</code> を使用する。</p>
+<blockquote>
+  <p><strong>orientationchange</strong><br />
+スマホの端末の向きが変わったときに発生するイベント</p>
+</blockquote>
+
+<h2>2017/03/03</h2>
+<h3>JSやCSSファイルにキャッシュを残さない方法</h3>
+<p>ファイルの末尾にクエリを付与することで、読み込むごとにクエリが変更するのでキャッシュが残らない</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script src="./jquery.js?v=xxxxx"&gt;&lt;/script&gt;
+</code></pre>
+</div>
+
+<h2>2017/03/07</h2>
+<h3>orientationchangeのブラウザごとで実行タイミングが違う件</h3>
+<p>Androidの場合、orientationchangeイベントの実行タイミングがブラウザごとに違う。<br />
+中には画面の向きが変わったのに、イベントが発火していないこともあり、幅を取得したい場合などに意図しない値が返っている場合もある。<br />
+綺麗な形ではないがsetTimeoutで300msほど実行タイミングを遅延させることで、確実に端末の向きが変わった後に発火させることができる。</p>
+
+<h2>2017/03/14</h2>
+<h3>let, constについて</h3>
+<p>自分なりの解釈。<br />
+let、constを使えばスコープをかなり厳密にすることができ、他の箇所からの汚染を防ぐことができる。<br />
+今日見た記事に可読性が上がるって書いてあったけど、constを使えばそこでしか使われていないものだということが一目で分かるからかなと思った。<br />
+とにかく書き換えの必要がなければconstを使うべし（ES6を使う場合）</p>
+
+<h2>2017/03/15</h2>
+<h3>コールバックについておさらい</h3>
+<p>関数の入れ子みたいな感じ。関数の中で引数で渡した関数を実行できる（表現あってるか微妙）</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>var huga = function() {
+    console.log('huga');
+}
+
+// hogeを表示したあとに引数を実行する関数
+var hoge = function(cb) {
+    console.log('hoge');
+    cb();
+}
+
+// 呼び出し
+hoge(huga);
+// hoge
+// huga
+
+</code></pre>
+</div>
 
     </div>
 </body>
