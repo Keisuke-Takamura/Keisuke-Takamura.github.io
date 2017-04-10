@@ -1,5 +1,4 @@
-auto: true
-server: ture
+exclude: ["vendor", "Gemfile", "Gemfile.lock", "README.md"]
 markdown: kramdown
-kramdown:
-    auto_ids: false
+kramdown: 
+    input: GFM

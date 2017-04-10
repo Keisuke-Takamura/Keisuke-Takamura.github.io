@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <title>TIL</title>
+
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/syntax.css">
 </head>
 <body>
-    <div class="container">
-        <h2>2017/02/20</h2>
-<h3>try~catchについて</h3>
+    <div class="post markdown-body">
+        <h2 id="20170220">2017/02/20</h2>
+<h3 id="trycatchについて">try~catchについて</h3>
 <p><code class="highlighter-rouge">try</code>で実行する処理を書いて、エラーの場合を<code class="highlighter-rouge">catch</code>に記述する。
 ただJSにおいて使う機会があまりない。ブラウザで実行することが多いため、デベロッパーツールなどでエラーが出力されるため。<br />
 今日見たのはconfigファイルで記述されていたパターン。<br />
 サーバーサイド側のjsだと使う機会が多いかもしれない。</p>
 
-<h2>2017/02/27</h2>
-<h3>bfcacheについて</h3>
+<h2 id="20170227">2017/02/27</h2>
+<h3 id="bfcacheについて">bfcacheについて</h3>
 <p>iOS Safariブラウザ限定の仕様。<br />
 ブラウザバックした際にページを再読み込みするのではなく、キャッシュで遷移する前の状態を保持しておく。<br />
 再読み込みしないので、ブラウザバックした時のページ読み込みが早くなるメリットがある。<br />
 ただ、JavaScriptの状態も保持されており、たとえばブルダウンメニューを開いて遷移といった手順を踏んでブラウザバックすると、プルダウンメニューが開いた状態で表示される。<br />
 対応策として以下があるが、毎回リロードさせるのではなく、キャッシュさせたくないイベントを指定して何かしらしたほうが良さそう。</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>window.onpageshow = function(event) {
-  if (event.persisted) {
-    window.location.reload();
-  }
-};
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">window</span><span class="p">.</span><span class="nf">onpageshow</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="nf">persisted</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">window</span><span class="p">.</span><span class="nf">location</span><span class="p">.</span><span class="nf">reload</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">};</span>
 </code></pre>
 </div>
 
-<h2>2017/03/02</h2>
-<h3>スマホ（Safari、Chrome）でスクロールしたときにresizeイベントが発生する</h3>
+<h2 id="20170302">2017/03/02</h2>
+<h3 id="スマホsafarichromeでスクロールしたときにresizeイベントが発生する">スマホ（Safari、Chrome）でスクロールしたときにresizeイベントが発生する</h3>
 <p>ブラウザのヘッダバーがスクロールしたときに収縮するため、それにresizeイベントが反応している。<br />
 スマホでリサイズするときは端末を縦か横にしたときだけなので、<code class="highlighter-rouge">orientationchange</code> を使用する。</p>
 <blockquote>
@@ -38,43 +41,43 @@
 スマホの端末の向きが変わったときに発生するイベント</p>
 </blockquote>
 
-<h2>2017/03/03</h2>
-<h3>JSやCSSファイルにキャッシュを残さない方法</h3>
+<h2 id="20170303">2017/03/03</h2>
+<h3 id="jsやcssファイルにキャッシュを残さない方法">JSやCSSファイルにキャッシュを残さない方法</h3>
 <p>ファイルの末尾にクエリを付与することで、読み込むごとにクエリが変更するのでキャッシュが残らない</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script src="./jquery.js?v=xxxxx"&gt;&lt;/script&gt;
-</code></pre>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">"./jquery.js?v=xxxxx"</span><span class="o">&gt;&lt;</span><span class="sr">/script&gt;
+</span></code></pre>
 </div>
 
-<h2>2017/03/07</h2>
-<h3>orientationchangeのブラウザごとで実行タイミングが違う件</h3>
+<h2 id="20170307">2017/03/07</h2>
+<h3 id="orientationchangeのブラウザごとで実行タイミングが違う件">orientationchangeのブラウザごとで実行タイミングが違う件</h3>
 <p>Androidの場合、orientationchangeイベントの実行タイミングがブラウザごとに違う。<br />
 中には画面の向きが変わったのに、イベントが発火していないこともあり、幅を取得したい場合などに意図しない値が返っている場合もある。<br />
 綺麗な形ではないがsetTimeoutで300msほど実行タイミングを遅延させることで、確実に端末の向きが変わった後に発火させることができる。</p>
 
-<h2>2017/03/14</h2>
-<h3>let, constについて</h3>
+<h2 id="20170314">2017/03/14</h2>
+<h3 id="let-constについて">let, constについて</h3>
 <p>自分なりの解釈。<br />
 let、constを使えばスコープをかなり厳密にすることができ、他の箇所からの汚染を防ぐことができる。<br />
 今日見た記事に可読性が上がるって書いてあったけど、constを使えばそこでしか使われていないものだということが一目で分かるからかなと思った。<br />
 とにかく書き換えの必要がなければconstを使うべし（ES6を使う場合）</p>
 
-<h2>2017/03/15</h2>
-<h3>コールバックについておさらい</h3>
+<h2 id="20170315">2017/03/15</h2>
+<h3 id="コールバックについておさらい">コールバックについておさらい</h3>
 <p>関数の入れ子みたいな感じ。関数の中で引数で渡した関数を実行できる（表現あってるか微妙）</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>var huga = function() {
-    console.log('huga');
-}
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">huga</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s1">'huga'</span><span class="p">);</span>
+<span class="p">}</span>
 
-// hogeを表示したあとに引数を実行する関数
-var hoge = function(cb) {
-    console.log('hoge');
-    cb();
-}
+<span class="sr">//</span> <span class="n">hoge</span><span class="err">を表示したあとに引数を実行する関数</span>
+<span class="n">var</span> <span class="n">hoge</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">cb</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="s1">'hoge'</span><span class="p">);</span>
+    <span class="n">cb</span><span class="p">();</span>
+<span class="p">}</span>
 
-// 呼び出し
-hoge(huga);
-// hoge
-// huga
+<span class="sr">//</span> <span class="err">呼び出し</span>
+<span class="n">hoge</span><span class="p">(</span><span class="n">huga</span><span class="p">);</span>
+<span class="sr">//</span> <span class="n">hoge</span>
+<span class="sr">//</span> <span class="n">huga</span>
 
 </code></pre>
 </div>
